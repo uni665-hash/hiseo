@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>보령 가족여행 🏖️ 2026</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+      background: #f5f7fa;
+      color: #222;
+      line-height: 1.7;
+    }
+
+    /* ===== Layout ===== */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* ===== Header ===== */
+    header {
+      background: linear-gradient(135deg, #1e88e5, #0d47a1);
+      color: #fff;
+      text-align: center;
+      padding: 32px 16px 28px;
+      border-radius: 0 0 24px 24px;
+      margin-bottom: 24px;
+    }
+    header h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.5px; }
+    header p { font-size: 0.95rem; opacity: .85; margin-top: 6px; }
+
+    /* ===== Section ===== */
+    section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid #1e88e5;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin: 18px 0 10px;
+      color: #0d47a1;
+    }
+    .tagline {
+      font-size: 0.92rem;
+      color: #555;
+      margin-bottom: 14px;
+      padding: 10px 14px;
+      background: #eef4ff;
+      border-radius: 10px;
+      border-left: 4px solid #1e88e5;
+    }
+
+    /* ===== Info Grid ===== */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .info-item {
+      background: #f8faff;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+    }
+    .info-item .label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #1e88e5;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .info-item .value {
+      font-size: 0.98rem;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* ===== Day Card ===== */
+    .day-card {
+      border: 1px solid #e8edf5;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .day-card:last-child { margin-bottom: 0; }
+    .day-header {
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .day-header .date {
+      font-weight: 400;
+      opacity: .9;
+      font-size: 0.85rem;
+    }
+    .day-1 .day-header { background: #43a047; }
+    .day-2 .day-header { background: #e53935; }
+    .day-3 .day-header { background: #fb8c00; }
+    .day-4 .day-header { background: #1e88e5; }
+
+    .day-body { padding: 8px 0; }
+    .schedule-row {
+      display: flex;
+      padding: 8px 16px;
+      border-bottom: 1px solid #f0f2f5;
+      font-size: 0.92rem;
+    }
+    .schedule-row:last-child { border-bottom: none; }
+    .schedule-time {
+      flex: 0 0 90px;
+      font-weight: 600;
+      color: #555;
+    }
+    .schedule-desc { flex: 1; }
+    .schedule-note {
+      font-size: 0.82rem;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    /* ===== Table ===== */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin: 8px 0 4px;
+    }
+    .data-table th {
+      background: #eef4ff;
+      font-weight: 600;
+      text-align: left;
+      padding: 8px 10px;
+      font-size: 0.82rem;
+      color: #1e88e5;
+    }
+    .data-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #f0f2f5;
+      vertical-align: top;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .rank-badge {
+      display: inline-block;
+      background: #1e88e5;
+      color: #fff;
+      border-radius: 10px;
+      width: 22px;
+      height: 22px;
+      text-align: center;
+      line-height: 22px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .price {
+      font-weight: 600;
+      color: #e53935;
+      white-space: nowrap;
+    }
+    .rating {
+      font-weight: 600;
+      color: #f9a825;
+    }
+
+    /* ===== Checklist ===== */
+    .checklist-group { margin-bottom: 14px; }
+    .checklist-group:last-child { margin-bottom: 0; }
+    .checklist-group h3 {
+      margin: 0 0 6px 0;
+      font-size: 0.95rem;
+    }
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 5px 0;
+      font-size: 0.9rem;
+    }
+    .checklist-item input[type="checkbox"] {
+      margin-top: 4px;
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      accent-color: #1e88e5;
+      cursor: pointer;
+    }
+    .checklist-item label { cursor: pointer; flex: 1; }
+
+    /* ===== Budget ===== */
+    .budget-table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+    .budget-table td {
+      padding: 7px 8px;
+      border-bottom: 1px solid #f0f2f5;
+      font-size: 0.88rem;
+    }
+    .budget-table td:last-child { text-align: right; font-weight: 500; }
+    .budget-table .total td {
+      font-weight: 700;
+      border-top: 2px solid #1e88e5;
+      border-bottom: none;
+      font-size: 0.95rem;
+    }
+    .budget-table .total td:last-child { color: #1e88e5; }
+    .budget-ok {
+      display: inline-block;
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* ===== Notice Banner ===== */
+    .notice {
+      background: #fff8e1;
+      border-left: 4px solid #f9a825;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      color: #6d4c00;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .notice strong { color: #e65100; }
+
+    /* ===== Footer ===== */
+    footer {
+      text-align: center;
+      font-size: 0.82rem;
+      color: #999;
+      padding: 24px 0 32px;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 600px) {
+      .container { padding: 12px; }
+      header { padding: 24px 14px 20px; }
+      header h1 { font-size: 1.5rem; }
+      section { padding: 16px; }
+      .info-grid { grid-template-columns: 1fr; }
+      .schedule-time { flex-basis: 75px; font-size: 0.85rem; }
+      .data-table { font-size: 0.82rem; }
+      .data-table th, .data-table td { padding: 6px 8px; }
+      .day-header { font-size: 0.92rem; padding: 10px 14px; }
+      .schedule-row { padding: 7px 14px; font-size: 0.88rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== HEADER ===== -->
+  <header>
+    <h1>🏖️ 보령 가족여행</h1>
+    <p>2026. 7. 29(목) ~ 8. 1(일) · 3박 4일 · 5인 가족</p>
+  </header>
+
+  <!-- ===== 변동 가능성 안내 ===== -->
+  <div class="notice">
+    <strong>⚠️ 실시간 변동 안내</strong><br>
+    본 페이지의 가격·좌석·운영 시간·예약 가능 여부는 조회 시점 기준이며 실시간으로 변동됩니다.
+    예약과 결제는 반드시 <strong>공식 홈페이지</strong>에서 직접 확인 후 진행하세요.
+    개인정보(예약번호, 계정 정보, 연락처 등)는 이 페이지에 저장하지 마세요.
+  </div>
+
+  <!-- ===== 여행 조건 요약 ===== -->
+  <section>
+    <h2>📋 여행 조건</h2>
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="label">📅 날짜</span>
+        <span class="value">7.29(목) → 8.1(일) · 3박 4일</span>
+      </div>
+      <div class="info-item">
+        <span class="label">📍 경로</span>
+        <span class="value">광주 → 보령 (자가용)</span>
+      </div>
+      <div class="info-item">
+        <span class="label">👨‍👩‍👧‍👦 인원</span>
+        <span class="value">5명 (부부 + 4·6·8세 자녀)</span>
+      </div>
+      <div class="info-item">
+        <span class="label">💰 예산</span>
+        <span class="value">약 130만원</span>
+      </div>
+      <div class="info-item">
+        <span class="label">🏠 숙소</span>
+        <span class="value">리조트 / 펜션 (깔끔한 곳)</span>
+      </div>
+      <div class="info-item">
+        <span class="label">🍳 식사</span>
+        <span class="value">아침 해먹기 + 점심/저녁 외식 or 해먹기</span>
+      </div>
+      <div class="info-item">
+        <span class="label">🏖️ 꼭 하고 싶은 것</span>
+        <span class="value">바닷가 · 머드축제 · 해수욕</span>
+      </div>
+      <div class="info-item">
+        <span class="label">🙅 피하고 싶은 것</span>
+        <span class="value">인파가 너무 많은 곳</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 날짜별 일정 ===== -->
+  <section>
+    <h2>🗓️ 날짜별 일정</h2>
+
+    <div class="day-card day-1">
+      <div class="day-header">
+        <span>Day 1 · 광주→보령 이동 + 대천해수욕장</span>
+        <span class="date">7/29 (목)</span>
+      </div>
+      <div class="day-body">
+        <div class="schedule-row">
+          <span class="schedule-time">🚗 09:00~12:00</span>
+          <span class="schedule-desc">
+            광주 출발 → 보령 이동 (약 230km, 휴게소 1회)
+          </span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🍜 12:00~13:30</span>
+          <span class="schedule-desc">
+            대천附近 점심 (외식)
+            <div class="schedule-note">아이들 메뉴 고려</div>
+          </span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🏠 14:00</span>
+          <span class="schedule-desc">숙소 체크인 &amp; 짐 정리</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🏖️ 15:00~17:30</span>
+          <span class="schedule-desc">
+            대천해수욕장 물놀이
+            <div class="schedule-note">첫날은 가볍게</div>
+          </span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🚿 17:30~18:30</span>
+          <span class="schedule-desc">샤워 &amp; 휴식</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🍳 18:30~</span>
+          <span class="schedule-desc">
+            저녁 (숙소 해먹기 or 외식)
+            <div class="schedule-note">장 봐서 해먹으면 경제적</div>
+          </span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🛌 21:00</span>
+          <span class="schedule-desc">취침</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card day-2">
+      <div class="day-header">
+        <span>Day 2 · 🔥 머드축제 DAY</span>
+        <span class="date">7/30 (금)</span>
+      </div>
+      <div class="day-body">
+        <div class="schedule-row">
+          <span class="schedule-time">🍳 08:00~09:00</span>
+          <span class="schedule-desc">아침 (숙소 해먹기)</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🎪 09:30~12:00</span>
+          <span class="schedule-desc">
+            보령머드축제 — 패밀리존
+            <div class="schedule-note">아이들 안전하게 머드체험</div>
+          </span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🍜 12:00~13:30</span>
+          <span class="schedule-desc">점심 (축제장附近 or 도시락)</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">💦 13:30~16:00</span>
+          <span class="schedule-desc">머드축제 워터파크존 / 컬러머드페인팅</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🚿 16:00~17:00</span>
+          <span class="schedule-desc">샤워 &amp; 숙소 휴식</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🎤 17:30~19:00</span>
+          <span class="schedule-desc">
+            저녁 (외식) + 축제 공연 / 드론쇼
+          </span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🛌 21:00</span>
+          <span class="schedule-desc">취침</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card day-3">
+      <div class="day-header">
+        <span>Day 3 · 갯벌체험 + 주변 탐방</span>
+        <span class="date">7/31 (토)</span>
+      </div>
+      <div class="day-body">
+        <div class="schedule-row">
+          <span class="schedule-time">🍳 08:00~09:00</span>
+          <span class="schedule-desc">아침 (숙소 해먹기)</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🦀 09:30~11:30</span>
+          <span class="schedule-desc">
+            갯벌체험 (군헌갯벌체험장 or 무창포)
+            <div class="schedule-note">아이들이 가장 신나하는 코스!</div>
+          </span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🍜 12:00~13:30</span>
+          <span class="schedule-desc">점심 (외식)</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🎨 14:00~16:00</span>
+          <span class="schedule-desc">
+            실내 체험 (우유창고 or 해저터널 홍보관)
+            <div class="schedule-note">더위 피하기</div>
+          </span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🏠 16:30~18:00</span>
+          <span class="schedule-desc">숙소 휴식 &amp; 바베큐 준비</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🥩 18:00~</span>
+          <span class="schedule-desc">
+            바베큐 파티 (펜션) or 저녁 외식
+            <div class="schedule-note">마지막 밤 즐기기</div>
+          </span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🛌</span>
+          <span class="schedule-desc">취침</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="day-card day-4">
+      <div class="day-header">
+        <span>Day 4 · 마무리 + 광주 복귀</span>
+        <span class="date">8/1 (일)</span>
+      </div>
+      <div class="day-body">
+        <div class="schedule-row">
+          <span class="schedule-time">🍳 08:00~09:30</span>
+          <span class="schedule-desc">아침 &amp; 짐 정리</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🏖️ 10:00~11:00</span>
+          <span class="schedule-desc">
+            아침 산책 or 무창포해수욕장
+            <div class="schedule-note">대천보다 한적</div>
+          </span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🛍️ 11:00~12:00</span>
+          <span class="schedule-desc">대천항 수산시장 구경</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🍜 12:00~13:00</span>
+          <span class="schedule-desc">점심 (맛집)</span>
+        </div>
+        <div class="schedule-row">
+          <span class="schedule-time">🚗 13:30~16:30</span>
+          <span class="schedule-desc">
+            보령 출발 → 광주 복귀
+            <div class="schedule-note">휴게소 1회</div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 교통 후보 ===== -->
+  <section>
+    <h2>🚗 교통 정보</h2>
+    <div class="tagline">광주 → 보령 자가용 기준</div>
+    <table class="data-table">
+      <tr><th>구분</th><th>내용</th></tr>
+      <tr><td>출발</td><td>광주광역시</td></tr>
+      <tr><td>도착</td><td>보령시 대천해수욕장</td></tr>
+      <tr><td>거리</td><td>약 230km</td></tr>
+      <tr><td>소요시간</td><td>약 2시간 30분 ~ 3시간</td></tr>
+      <tr><td>경로</td><td>서해안고속도로 → 대천IC</td></tr>
+      <tr><td>예상 기름값</td><td>왕복 약 8만원 (460km, 연비 10km/L 기준)</td></tr>
+      <tr><td>참고</td><td>아이들이 있으니 중간 휴게소 1회 필수</td></tr>
+    </table>
+  </section>
+
+  <!-- ===== 액티비티 후보 ===== -->
+  <section>
+    <h2>🎪 액티비티 &amp; 즐길 거리</h2>
+
+    <h3>🎉 보령머드축제 2026</h3>
+    <table class="data-table">
+      <tr><th>구분</th><th>내용</th></tr>
+      <tr><td>축제명</td><td>제29회 보령머드축제</td></tr>
+      <tr><td>기간</td><td><strong>2026. 7. 24(금) ~ 8. 9(일)</strong> ✅ 여행 기간과 완전 일치</td></tr>
+      <tr><td>장소</td><td>대천해수욕장 일원 (머드엑스포광장)</td></tr>
+      <tr><td>운영 시간</td><td>오전 10시 ~ 오후 6시</td></tr>
+      <tr><td>주요 프로그램</td><td>머드체험존(일반/패밀리/워터파크), 컬러머드페인팅, 머드뷰티케어, K-POP 공연, 드론 라이트쇼</td></tr>
+      <tr><td>입장료</td><td>2026년 공식 홈페이지 확인 (얼리버드 할인 가능)</td></tr>
+      <tr><td>🎯 꿀팁</td>
+        <td>
+          · 패밀리존은 아이 동반 가족 전용<br>
+          · <strong>평일(목/금) 방문</strong> 추천 — 주말보다 한산<br>
+          · 래쉬가드(어두운색), 방수팩, 슬리퍼, 샤워용품, 선크림 필수
+        </td>
+      </tr>
+    </table>
+
+    <h3>🏖️ 아이와 가볼만한 곳</h3>
+    <table class="data-table">
+      <tr><th>활동</th><th>설명</th><th>추천 연령</th></tr>
+      <tr><td>군헌갯벌체험장</td><td>갯벌체험 (조개잡이 등)</td><td>전 연령</td></tr>
+      <tr><td>무창포해수욕장</td><td>대천보다 한적, 해루질 가능</td><td>전 연령</td></tr>
+      <tr><td>우유창고 체험장</td><td>아이스크림·버터·치즈 만들기</td><td>4~8세</td></tr>
+      <tr><td>보령해저터널 홍보관</td><td>실내 체험형 전시관</td><td>전 연령</td></tr>
+      <tr><td>스카이바이크 &amp; 짚라인</td><td>대천해수욕장 액티비티</td><td>6세↑</td></tr>
+      <tr><td>성주산 자연휴양림</td><td>숲놀이터, 트램펄린</td><td>전 연령</td></tr>
+      <tr><td>대천항 수산시장</td><td>회·게 등 수산물 구경/식사</td><td>전 연령</td></tr>
+    </table>
+  </section>
+
+  <!-- ===== 숙소 후보 ===== -->
+  <section>
+    <h2>🏨 숙소 후보 (마이리얼트립 검색)</h2>
+    <div class="tagline">2026. 7. 29~8. 1 · 성인2 + 아동3 · 가격은 실시간 변동</div>
+
+    <h3>💰 적정 예산 (1박 5~10만원대)</h3>
+    <table class="data-table">
+      <tr>
+        <th>#</th>
+        <th>숙소명</th>
+        <th>유형</th>
+        <th>1박(세금포함)</th>
+        <th>3박 합계</th>
+        <th>평점</th>
+      </tr>
+      <tr>
+        <td><span class="rank-badge">1</span></td>
+        <td>우리황토펜션 (무창포)</td>
+        <td>펜션</td>
+        <td class="price">50,000원</td>
+        <td class="price">15만원</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge">2</span></td>
+        <td>이글스파크펜션</td>
+        <td>펜션</td>
+        <td class="price">81,666원</td>
+        <td class="price">24.5만원</td>
+        <td>-</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge">3</span></td>
+        <td>갯바람펜션</td>
+        <td>펜션</td>
+        <td class="price">80,000원</td>
+        <td class="price">24만원</td>
+        <td class="rating">5.0</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge">4</span></td>
+        <td>호텔 그랜드 베이</td>
+        <td>호텔</td>
+        <td class="price">103,333원</td>
+        <td class="price">31만원</td>
+        <td class="rating">4.6</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge">5</span></td>
+        <td>대천323콘도</td>
+        <td>콘도</td>
+        <td class="price">120,000원</td>
+        <td class="price">36만원</td>
+        <td class="rating">4.2</td>
+      </tr>
+      <tr>
+        <td><span class="rank-badge">6</span></td>
+        <td>체리펜션</td>
+        <td>펜션</td>
+        <td class="price">96,666원</td>
+        <td class="price">29만원</td>
+        <td>3.0</td>
+      </tr>
+    </table>
+
+    <h3 style="margin-top:16px;">💡 숙소 추천</h3>
+    <ul style="font-size:0.9rem; padding-left:18px; line-height:1.8;">
+      <li><strong>예산 중시</strong> → 우리황토펜션 (무창포·한적) / 갯바람펜션</li>
+      <li><strong>위치 중시</strong> → 호텔 그랜드 베이 (대천·평점 높음) / 이글스파크펜션</li>
+      <li><strong>주방 필요한 경우</strong> → 대천323콘도 (주방 완비)</li>
+      <li><strong>블로그 추천</strong> → 한화리조트 대천파로스, 호텔 쏠레르 (머드광장 도보5분·키즈라운지)</li>
+    </ul>
+    <p style="font-size:0.82rem; color:#888; margin-top:10px;">
+      ※ 숙소 금액은 MyRealTrip 기준. 네이버 예약·여기어때·야놀자 등 타 플랫폼과 비교 권장.
+    </p>
+  </section>
+
+  <!-- ===== 예산 계획 ===== -->
+  <section>
+    <h2>💰 예산 계획 (130만원)</h2>
+    <table class="budget-table">
+      <tr><td>⛽ 기름값 (왕복 460km)</td><td>약 8만원</td></tr>
+      <tr><td>🏠 숙소 3박</td><td>약 25~35만원</td></tr>
+      <tr><td>🍜 식비 (3박4일)</td><td>약 40~50만원</td></tr>
+      <tr><td>🎪 머드축제 입장료</td><td>약 5~10만원</td></tr>
+      <tr><td>🎫 체험비 (갯벌체험 등)</td><td>약 5~10만원</td></tr>
+      <tr><td>🛒 간식·준비물·기타</td><td>약 10~15만원</td></tr>
+      <tr class="total"><td>✅ 합계</td><td>약 93~128만원 <span class="budget-ok">예산 내 가능</span></td></tr>
+    </table>
+  </section>
+
+  <!-- ===== 예약 체크리스트 ===== -->
+  <section>
+    <h2>✅ 예약 체크리스트</h2>
+    <p class="tagline">체크박스를 클릭하면 저장됩니다 (브라우저 로컬 저장)</p>
+
+    <div class="checklist-group" data-group="accommodation">
+      <h3>🏠 숙소 예약 (최우선)</h3>
+      <div class="checklist-item"><input type="checkbox" id="c1"><label for="c1">숙소 선택 후 예약 (성수기라 빠를수록 좋음) — 마이리얼트립·네이버·야놀자·여기어때 비교</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c2"><label for="c2">3박(7/29~8/1) 맞게 설정했는지 확인</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c3"><label for="c3">5인(성인2+아동3) 투숙 가능 객실 확인</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c4"><label for="c4">주방/취사 가능 여부 확인 (아침 해먹기)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c5"><label for="c5">무료 취소 가능 여부 확인</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c6"><label for="c6">바베큐 시설 유무 확인 (Day 3 계획)</label></div>
+    </div>
+
+    <div class="checklist-group" data-group="festival">
+      <h3>🎪 머드축제</h3>
+      <div class="checklist-item"><input type="checkbox" id="c7"><label for="c7">2026 보령머드축제 공식 홈페이지에서 입장권 확인 및 예매</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c8"><label for="c8">얼리버드 할인 기간 확인 (매년 6월 중순~말)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c9"><label for="c9">패밀리존 vs 일반존 선택</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c10"><label for="c10">준비물: 래쉬가드(어두운색), 수영복, 방수팩, 슬리퍼, 샤워용품, 선크림, 모자, 여분옷, 지퍼백</label></div>
+    </div>
+
+    <div class="checklist-group" data-group="transport">
+      <h3>🚗 이동</h3>
+      <div class="checklist-item"><input type="checkbox" id="c11"><label for="c11">자동차 점검 (에어컨, 냉각수, 타이어)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c12"><label for="c12">내비게이션 목적지 설정: 대천해수욕장 (충남 보령시)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c13"><label for="c13">유류비 준비</label></div>
+    </div>
+
+    <div class="checklist-group" data-group="supplies">
+      <h3>🛒 기타</h3>
+      <div class="checklist-item"><input type="checkbox" id="c14"><label for="c14">장보기 리스트 (아침 식재료, 간식, 음료)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c15"><label for="c15">바베큐 재료 (필요 시 사전 예약 or 현장 구매)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c16"><label for="c16">아이들 물놀이 용품 (튜브, 물안경, 구명조끼)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c17"><label for="c17">상비약 (모기약, 멀미약, 상처용 밴드, 해열제)</label></div>
+      <div class="checklist-item"><input type="checkbox" id="c18"><label for="c18">여행자 보험 확인</label></div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer>
+    🏖️ 보령 가족여행 플래너 · 생성일 2026.06.23<br>
+    본 페이지는 여행비서(Opencode Agent)가 생성한 참고자료입니다.
+  </footer>
+
+</div>
+
+<!-- ===== JavaScript ===== -->
+<script>
+  (function() {
+    // 로컬스토리지에서 체크 상태 복원
+    document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(function(cb) {
+      var key = 'travel_check_' + cb.id;
+      if (localStorage.getItem(key) === 'true') {
+        cb.checked = true;
+      }
+      // 상태 변경 시 로컬스토리지 저장
+      cb.addEventListener('change', function() {
+        localStorage.setItem(key, this.checked);
+      });
+    });
+  })();
+</script>
+</body>
+</html>
