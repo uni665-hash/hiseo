@@ -277,6 +277,16 @@
     <p>2026. 7. 29(목) ~ 8. 1(일) · 3박 4일 · 5인 가족</p>
   </header>
 
+  <!-- ===== Notion 연결 상태 ===== -->
+  <div id="notion-status" style="
+    display:flex; align-items:center; gap:10px;
+    background:#fff; border-radius:12px; padding:12px 18px;
+    margin-bottom:16px; box-shadow:0 2px 8px rgba(0,0,0,.06);
+    font-size:0.9rem;">
+    <span id="notion-dot" style="width:10px;height:10px;border-radius:50%;background:#ccc;flex-shrink:0;"></span>
+    <span id="notion-msg">Notion 연결 확인 중...</span>
+  </div>
+
   <!-- ===== 변동 가능성 안내 ===== -->
   <div class="notice">
     <strong>⚠️ 실시간 변동 안내</strong><br>
@@ -692,6 +702,27 @@
 
 <!-- ===== JavaScript ===== -->
 <script>
+  // Notion 연결 상태 확인
+  (function() {
+    fetch('/api/notion/test')
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var dot = document.getElementById('notion-dot');
+        var msg = document.getElementById('notion-msg');
+        if (data.ok) {
+          dot.style.background = '#43a047';
+          msg.textContent = 'Notion 연결됨 — ' + (data.bot || '봇');
+        } else {
+          dot.style.background = '#e53935';
+          msg.textContent = 'Notion 연결 실패: ' + data.error;
+        }
+      })
+      .catch(function() {
+        document.getElementById('notion-dot').style.background = '#888';
+        document.getElementById('notion-msg').textContent = 'Notion 서버에 연결할 수 없습니다 (서버 미실행)';
+      });
+  })();
+
   (function() {
     // 로컬스토리지에서 체크 상태 복원
     document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(function(cb) {
