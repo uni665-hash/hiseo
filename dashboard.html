@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>장학전산화 업무 대시보드</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; background: #f5f7fa; color: #222; line-height: 1.6; }
+
+    header { background: linear-gradient(135deg, #1565c0, #0d47a1); color: #fff; padding: 28px 20px; text-align: center; }
+    header h1 { font-size: 1.6rem; font-weight: 700; }
+    header p { font-size: 0.9rem; opacity: .8; margin-top: 4px; }
+
+    .container { max-width: 860px; margin: 0 auto; padding: 20px 16px; }
+
+    .status-bar { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .badge { display: flex; align-items: center; gap: 8px; background: #fff; border-radius: 10px; padding: 10px 16px; font-size: 0.88rem; box-shadow: 0 2px 6px rgba(0,0,0,.06); flex: 1; min-width: 180px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #ccc; flex-shrink: 0; }
+    .dot.green { background: #43a047; }
+    .dot.red { background: #e53935; }
+    .dot.orange { background: #fb8c00; }
+
+    .btn { display: inline-block; padding: 8px 18px; border-radius: 8px; font-size: 0.88rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; }
+    .btn-kakao { background: #FEE500; color: #000; }
+    .btn-kakao:hover { background: #f0d800; }
+    .btn-primary { background: #1e88e5; color: #fff; }
+    .btn-primary:hover { background: #1565c0; }
+    .btn-sm { padding: 6px 14px; font-size: 0.82rem; }
+
+    .card { background: #fff; border-radius: 14px; padding: 20px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+    .card h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+    .card h2 span:first-child { display: flex; align-items: center; gap: 8px; }
+
+    .task-list { list-style: none; }
+    .task-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f2f5; font-size: 0.9rem; }
+    .task-item:last-child { border-bottom: none; }
+    .task-title { font-weight: 500; flex: 1; }
+    .task-meta { font-size: 0.78rem; color: #888; margin-top: 3px; }
+    .tag { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+    .tag-todo { background: #f0f0f0; color: #555; }
+    .tag-doing { background: #e3f2fd; color: #1565c0; }
+    .tag-review { background: #fff8e1; color: #f57f17; }
+    .tag-high { background: #fdecea; color: #c62828; }
+    .tag-mid { background: #fff8e1; color: #e65100; }
+    .tag-low { background: #f5f5f5; color: #777; }
+
+    .empty { text-align: center; color: #aaa; padding: 32px 0; font-size: 0.92rem; }
+
+    .schedule-list { list-style: none; }
+    .schedule-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f2f5; font-size: 0.9rem; }
+    .schedule-item:last-child { border-bottom: none; }
+    .schedule-time { font-weight: 700; color: #1e88e5; min-width: 60px; }
+
+    .setup-guide { background: #fff8e1; border-left: 4px solid #f9a825; border-radius: 10px; padding: 14px 18px; font-size: 0.88rem; color: #5d4037; margin-bottom: 20px; line-height: 1.7; }
+    .setup-guide strong { color: #e65100; }
+    .setup-guide ol { padding-left: 18px; margin-top: 6px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>장학전산화 업무 대시보드</h1>
+  <p>Notion 연동 · 카카오톡 알림</p>
+</header>
+
+<div class="container">
+
+  <!-- 연결 상태 -->
+  <div class="status-bar">
+    <div class="badge">
+      <span class="dot" id="notion-dot"></span>
+      <span id="notion-msg">Notion 확인 중...</span>
+    </div>
+    <div class="badge">
+      <span class="dot" id="kakao-dot"></span>
+      <span id="kakao-msg">카카오 확인 중...</span>
+    </div>
+  </div>
+
+  <!-- 카카오 미연결 안내 -->
+  <div class="setup-guide" id="kakao-guide" style="display:none">
+    <strong>📱 카카오톡 알림 설정이 필요합니다</strong>
+    <ol>
+      <li><a href="https://developers.kakao.com" target="_blank">developers.kakao.com</a> 에서 앱 생성</li>
+      <li>REST API 키 복사 → <code>.env</code> 에 <code>KAKAO_REST_API_KEY=</code> 추가</li>
+      <li>플랫폼 → Web → 사이트 도메인 <code>http://localhost:3000</code> 등록</li>
+      <li>아래 버튼으로 카카오 로그인</li>
+    </ol>
+    <br>
+    <a href="/api/kakao/auth" class="btn btn-kakao">카카오톡 연결하기</a>
+  </div>
+
+  <!-- 노션 DB 미설정 안내 -->
+  <div class="setup-guide" id="notion-db-guide" style="display:none">
+    <strong>📋 노션 태스크 DB 설정이 필요합니다</strong>
+    <ol>
+      <li>노션에서 페이지를 열고 "..." → "연결 추가" → "hiseo" 선택</li>
+      <li>PowerShell에서: <code>node setup-notion.js</code> 실행</li>
+      <li>출력된 <code>NOTION_TASK_DB_ID=xxx</code> 를 <code>.env</code> 에 추가</li>
+      <li>서버 재시작: <code>npm start</code></li>
+    </ol>
+  </div>
+
+  <!-- 미완료 태스크 -->
+  <div class="card">
+    <h2>
+      <span>📋 미완료 업무</span>
+      <button class="btn btn-primary btn-sm" onclick="loadTasks()">새로고침</button>
+    </h2>
+    <ul class="task-list" id="task-list">
+      <li class="empty">로딩 중...</li>
+    </ul>
+  </div>
+
+  <!-- 알림 스케줄 -->
+  <div class="card">
+    <h2>
+      <span>🔔 카카오톡 알림 스케줄</span>
+      <button class="btn btn-kakao btn-sm" onclick="sendTest()">테스트 전송</button>
+    </h2>
+    <ul class="schedule-list">
+      <li class="schedule-item"><span class="schedule-time">오전 9시</span> 오늘 할 일 목록 전송</li>
+      <li class="schedule-item"><span class="schedule-time">오후 2시</span> 진행 중 항목 중간 점검</li>
+      <li class="schedule-item"><span class="schedule-time">저녁 6시</span> 오늘 마무리 확인</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  // Notion 상태
+  fetch('/api/notion/test')
+    .then(r => r.json())
+    .then(d => {
+      var dot = document.getElementById('notion-dot');
+      var msg = document.getElementById('notion-msg');
+      if (d.ok) { dot.className = 'dot green'; msg.textContent = 'Notion 연결됨'; }
+      else { dot.className = 'dot red'; msg.textContent = 'Notion 연결 실패'; }
+    })
+    .catch(() => {
+      document.getElementById('notion-dot').className = 'dot red';
+      document.getElementById('notion-msg').textContent = 'Notion 서버 오류';
+    });
+
+  // 카카오 상태
+  fetch('/api/kakao/status')
+    .then(r => r.json())
+    .then(d => {
+      var dot = document.getElementById('kakao-dot');
+      var msg = document.getElementById('kakao-msg');
+      if (d.connected) {
+        dot.className = 'dot green';
+        msg.textContent = '카카오톡 연결됨';
+      } else {
+        dot.className = 'dot orange';
+        msg.textContent = '카카오톡 미연결';
+        document.getElementById('kakao-guide').style.display = 'block';
+      }
+    });
+
+  // 태스크 로드
+  function statusTag(s) {
+    var map = { '할 일': 'tag-todo', '진행중': 'tag-doing', '검토중': 'tag-review' };
+    return '<span class="tag ' + (map[s] || 'tag-todo') + '">' + s + '</span>';
+  }
+  function priorityTag(p) {
+    var map = { '높음': 'tag-high', '중간': 'tag-mid', '낮음': 'tag-low' };
+    return '<span class="tag ' + (map[p] || 'tag-low') + '">' + p + '</span>';
+  }
+
+  function loadTasks() {
+    var list = document.getElementById('task-list');
+    list.innerHTML = '<li class="empty">로딩 중...</li>';
+    fetch('/api/notion/tasks')
+      .then(r => r.json())
+      .then(d => {
+        if (!d.ok || !d.tasks.length) {
+          if (!process || d.error?.includes('NOTION_TASK_DB_ID')) {
+            document.getElementById('notion-db-guide').style.display = 'block';
+          }
+          list.innerHTML = '<li class="empty">✅ 미완료 업무가 없습니다!</li>';
+          return;
+        }
+        list.innerHTML = d.tasks.map(t =>
+          '<li class="task-item">' +
+            '<div style="flex:1">' +
+              '<div class="task-title">' + t.title + '</div>' +
+              '<div class="task-meta">' + t.stage + ' · 마감: ' + t.deadline + '</div>' +
+            '</div>' +
+            statusTag(t.status) + ' ' + priorityTag(t.priority) +
+          '</li>'
+        ).join('');
+      })
+      .catch(() => {
+        document.getElementById('notion-db-guide').style.display = 'block';
+        list.innerHTML = '<li class="empty">태스크 DB를 먼저 설정해주세요</li>';
+      });
+  }
+
+  function sendTest() {
+    if (!confirm('카카오톡으로 테스트 알림을 보낼까요?')) return;
+    fetch('/api/kakao/test', { method: 'POST' })
+      .then(r => r.json())
+      .then(d => alert(d.ok ? '✅ 카카오톡 전송 완료!' : '❌ 실패: ' + d.error));
+  }
+
+  loadTasks();
+</script>
+</body>
+</html>
